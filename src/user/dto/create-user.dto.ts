@@ -21,3 +21,10 @@ export class CreateUserDto {
   @Length(4, 8)
   password: string;
 }
+
+export enum Role {
+  USER = "USER",
+  ADMIN = "ADMIN",
+  SUPPER_ADMIN = "SUPPER_ADMIN",
+
+}

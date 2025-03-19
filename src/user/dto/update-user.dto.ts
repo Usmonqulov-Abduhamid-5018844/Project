@@ -11,4 +11,8 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @Length(4, 8)
   password: string;
+
+  @ApiProperty({example: "123.54.34"})
+  @IsNotEmpty()
+  api: string;
 }

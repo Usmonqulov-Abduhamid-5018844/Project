@@ -7,31 +7,39 @@ import { PrizmaService } from 'src/prizma/prizma.service';
 export class CategoryService {
   constructor(private prisma: PrizmaService) {}
 
-  create(data: CreateCategoryDto) {
-    return this.prisma.categort.create({ data });
+  async create(data: CreateCategoryDto) {
+    return await this.prisma.categort.create({ data });
   }
 
-  findAll() {
-    return this.prisma.categort.findMany()
+  async findAll() {
+    let Category = await this.prisma.categort.findMany();
+    if (!Category.length) {
+      return { Message: 'Category Not found' };
+    }
+    return Category;
   }
 
-  findOne(id: number) {
-    return this.prisma.categort.findUnique({ where: { id } });
+  async findOne(id: string) {
+    let Category = await this.prisma.categort.findUnique({ where: { id } });
+    if (!Category) {
+      return { Message: 'Not found Category' };
+    }
+    return Category;
   }
 
-  update(id: number, data: UpdateCategoryDto) {
-    let category = this.prisma.categort.findUnique({where:{id}});
-    if (!category) {
+  async update(id: string, data: UpdateCategoryDto) {
+    let Category = await this.prisma.categort.findUnique({ where: { id } });
+    if (!Category) {
       return 'Not found category';
     }
-    return this.prisma.categort.updateManyAndReturn({where: {id},data});
+    return await this.prisma.categort.update({ where: { id }, data });
   }
 
-  remove(id: number) {
-    let product = this.prisma.categort.findUnique({where: {id}})
-    if(!product){
-      return "Not Fount category"
+  async remove(id: string) {
+    let Category = await this.prisma.categort.findUnique({ where: { id } });
+    if (!Category) {
+      return 'Not Fount category';
     }
-    return this.prisma.categort.delete({where: {id}})
+    return await this.prisma.categort.delete({ where: { id } });
   }
 }

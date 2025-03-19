@@ -7,31 +7,39 @@ import { PrizmaService } from 'src/prizma/prizma.service';
 export class ProductService {
   constructor(private prisma: PrizmaService) {}
 
-  create(data: CreateProductDto) {
-    return this.prisma.categort.create({ data });
+  async create(data: CreateProductDto) {
+    return await this.prisma.product.create({data})
   }
 
-  findAll() {
-    return this.prisma.categort.findMany();
-  }
-
-  findOne(id: number) {
-    return this.prisma.categort.findUnique({ where: { id } });
-  }
-
-  update(id: number, data: UpdateProductDto) {
-    let category = this.prisma.categort.findUnique({ where: { id } });
-    if (!category) {
-      return 'Not found category';
+  async findAll() {
+    let product = await this.prisma.product.findMany();
+    if (!product.length) {
+      return { Message: 'Product Not found' };
     }
-    return this.prisma.categort.updateManyAndReturn({ where: { id }, data });
+    return product;
   }
 
-  remove(id: number) {
-    let product = this.prisma.categort.findUnique({ where: { id } });
+  async findOne(id: string) {
+    let product = await this.prisma.product.findUnique({ where: { id } });
     if (!product) {
-      return 'Not Fount category';
+      return { Message: 'Not found product' };
     }
-    return this.prisma.categort.delete({ where: { id } });
+    return product;
+  }
+
+  async update(id: string, data: UpdateProductDto) {
+    let product = await this.prisma.product.findUnique({ where: { id } });
+    if (!product) {
+      return 'Not found product';
+    }
+    return await this.prisma.product.update({ where: { id },data });
+  }
+
+  async remove(id: string) {
+    let product = await this.prisma.product.findUnique({ where: { id } });
+    if (!product) {
+      return 'Not Fount product';
+    }
+    return await this.prisma.product.delete({ where: { id } });
   }
 }

@@ -18,6 +18,5 @@ export class CreateProductDto {
 
     @ApiProperty({example:"categoryId"})
     @IsNotEmpty()
-    @Type(()=> Number)
-    categoryId: number
+    categoryId: string
 }

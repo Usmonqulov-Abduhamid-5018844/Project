@@ -14,31 +14,38 @@ datasource db {
 }
 
 model Categort {
-  id      Int       @id @default(autoincrement())
+  id      String       @id @default(uuid())
   name    String
   image   String
   Product Product[]
 }
 
 model Product {
-  id         Int      @id @default(autoincrement())
+  id         String    @id @default(uuid())
   name       String
   price      Int
   image      String
-  categoryId Int
-  category   Categort @relation(fields: [categoryId], references: [id])
-}
-
-model Sesion {
-  id Int @id @default(autoincrement())
-  api String
-  userId Int
+  categoryId String
+  category   Categort @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  in Int @id @default(autoincrement())
+  id String @id @default(uuid())
   name String
   phone String
   email String
+  IsActive Boolean @default(false)
   password String
+  role Role @default(USER)
+}
+model Sesion {
+  id String @id @default(uuid())
+  api String
+  userId String
+}
+
+enum Role {
+  ADMIN
+  USER
+  SUPPER_ADMIN
 }
