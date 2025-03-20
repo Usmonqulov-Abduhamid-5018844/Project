@@ -5,14 +5,25 @@ import { ProductModule } from './product/product.module';
 import { PrizmaModule } from './prizma/prizma.module';
 import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import {join} from "path"
+import { join } from 'path';
+import { JwtModule } from '@nestjs/jwt';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'Upload'),
-    serveRoot: "/Upload"
-  }),
-    PrizmaModule, CategoryModule, ProductModule, UserModule],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'Upload'),
+      serveRoot: '/Upload',
+    }),
+    JwtModule.register({
+      global: true,
+    }),
+    PrizmaModule,
+    CategoryModule,
+    ProductModule,
+    UserModule,
+    MailModule,
+  ],
   controllers: [AppController],
   providers: [],
 })

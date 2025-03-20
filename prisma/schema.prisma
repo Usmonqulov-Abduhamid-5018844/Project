@@ -33,7 +33,7 @@ model User {
   id String @id @default(uuid())
   name String
   phone String
-  email String
+  email String 
   IsActive Boolean @default(false)
   password String
   role Role @default(USER)
